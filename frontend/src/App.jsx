@@ -52,7 +52,7 @@ function App() {
       <header className="bg-gray-900 py-4">
         <div className="container mx-auto flex justify-between items-center">
           <img src="/becode.png" alt="Becode Logo" className="w-12 h-10" />
-          <h1 className="text-2xl font-bold">ExamPro Exam Scheduler: Bouman 6</h1>
+          <h1 className="text-2xl font-bold">ExamPro Exam Scheduler</h1>
           {name && (
             <button
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
