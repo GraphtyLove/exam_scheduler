@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:3000';
+export const API_URL = 'https://becode-exam-scheduler-api.onrender.com';
