@@ -20,6 +20,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Alive")
+	})
+
 	app.Post("/exam", func(c *fiber.Ctx) error {
 		exam := new(mongo.Exam)
 
