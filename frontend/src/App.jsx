@@ -50,23 +50,28 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-900 text-white">
       <header className="bg-gray-900 py-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <img src="/becode.png" alt="Becode Logo" className="w-12 h-10" />
-          <h1 className="text-2xl font-bold">ExamPro Exam Scheduler</h1>
+        <div className="container mx-auto flex justify-center items-center">
+          <div className="flex">
+            <img src="/becode.png" alt="Becode Logo" className="w-12 h-10 mr-5" />
+            <h1 className="text-2xl font-bold">ExamPro Exam Scheduler</h1>
+          </div>
+
           {name && (
-            <button
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            <div className="flex items-center text-2xl ml-auto">
+              <p className="mr-5">Welcome, {capitalizeFirstLetter(name.toLowerCase())}!</p>
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           )}
         </div>
       </header>
       <main className="container mx-auto py-8">
         {name ? (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-white">Welcome, {capitalizeFirstLetter(name.toLowerCase())}!</h2>
             {loading ? (
               <div className="flex justify-center items-center">
                 <BeatLoader color={'#ffffff'} loading={loading} size={15} />
