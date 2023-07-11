@@ -4,17 +4,18 @@ import (
 	"context"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Exam struct {
-	Id           int    `bson:"_id,omitempty"`
-	Name         string `bson:"name"`
-	IsInProgress bool   `bson:"is_in_progress"`
-	Challenger   string `bson:"challenger"`
-	StartTime    int    `bson:"start_time"`
-	EndTime      int    `bson:"end_time"`
+	Id           primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	Name         string             `json:"name" bson:"name"`
+	IsInProgress bool               `json:"isInProgress" bson:"is_in_progress"`
+	Challenger   string             `json:"challenger" bson:"challenger"`
+	StartTime    int                `json:"startTime" bson:"start_time"`
+	EndTime      int                `json:"endTime" bson:"end_time"`
 }
 
 func (db *Database) CreateExam(exam Exam) (*mongo.InsertOneResult, error) {
@@ -22,7 +23,7 @@ func (db *Database) CreateExam(exam Exam) (*mongo.InsertOneResult, error) {
 	return result, err
 }
 
-func (db *Database) ReadExam(id int) (*Exam, error) {
+func (db *Database) ReadExam(id primitive.ObjectID) (*Exam, error) {
 	var exam Exam
 	err := db.Exams.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&exam)
 	if err != nil {
@@ -34,7 +35,7 @@ func (db *Database) ReadExam(id int) (*Exam, error) {
 	return &exam, nil
 }
 
-func (db *Database) UpdateExam(id int, updatedExam Exam) (*mongo.UpdateResult, error) {
+func (db *Database) UpdateExam(id primitive.ObjectID, updatedExam Exam) (*mongo.UpdateResult, error) {
 	update := bson.M{
 		"$set": updatedExam,
 	}
@@ -43,7 +44,7 @@ func (db *Database) UpdateExam(id int, updatedExam Exam) (*mongo.UpdateResult, e
 	return result, err
 }
 
-func (db *Database) DeleteExam(id int) (*mongo.DeleteResult, error) {
+func (db *Database) DeleteExam(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 	result, err := db.Exams.DeleteOne(context.TODO(), bson.M{"_id": id})
 	return result, err
 }
