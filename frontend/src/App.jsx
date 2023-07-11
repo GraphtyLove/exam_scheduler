@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BeatLoader } from 'react-spinners';
 import Exam from './components/Exam';
 import Register from './components/Register';
 import Cookies from 'js-cookie';
@@ -7,6 +8,7 @@ import { API_URL } from './constants';
 function App() {
   const [name, setName] = useState(null);
   const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storedName = Cookies.get('name');
@@ -20,12 +22,15 @@ function App() {
   }, []);
 
   const fetchExams = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${API_URL}/exams`);
       const data = await response.json();
       setExams(data);
     } catch (error) {
       console.log('Error fetching exams:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,9 +67,15 @@ function App() {
         {name ? (
           <>
             <h2 className="text-2xl font-bold mb-4 text-white">Welcome, {capitalizeFirstLetter(name.toLowerCase())}!</h2>
-            {exams.map((exam) => (
-              <Exam key={exam.id} {...exam} userName={name} onUpdate={handleExamUpdate} />
-            ))}
+            {loading ? (
+              <div className="flex justify-center items-center">
+                <BeatLoader color={'#ffffff'} loading={loading} size={15} />
+              </div>
+            ) : (
+              exams.map((exam) => (
+                <Exam key={exam.id} {...exam} userName={name} onUpdate={handleExamUpdate} />
+              ))
+            )}
           </>
         ) : (
           <Register setName={setName} />

@@ -21,8 +21,6 @@ func GetConnectionStringFromEnvFile(filePath string) string {
 	err := godotenv.Load(filePath)
 	if err != nil {
 		fmt.Printf("Error loading .env file: %v", err)
-
-		panic(err)
 	}
 	return os.Getenv("MONGO_CONNECTION_STRING")
 }
