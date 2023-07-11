@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
-import Exam from './components/Exam/Exam';
-import Register from './components/Register/Register';
+import Exam from './components/Exam';
+import Register from './components/Register';
 import Cookies from 'js-cookie';
 
 function App() {
@@ -57,7 +57,7 @@ function App() {
       <main className="container mx-auto py-8">
         {name ? (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-white">Schedule your exam, {name}!</h2>
+            <h2 className="text-2xl font-bold mb-4 text-white">Welcome, {name}!</h2>
             {exams.map((exam) => (
               <Exam key={exam.id} {...exam} userName={name} onUpdate={handleExamUpdate} />
             ))}
