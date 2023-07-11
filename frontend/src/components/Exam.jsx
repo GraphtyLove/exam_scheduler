@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../constants';
 
 
 const Exam = ({ id, name: examName, isInProgress, challenger, startTime, endTime, userName, onUpdate }) => {
@@ -32,7 +33,7 @@ const Exam = ({ id, name: examName, isInProgress, challenger, startTime, endTime
             };
 
             try {
-                const response = await fetch(`http://localhost:3000/exam/${id}`, {
+                const response = await fetch(`${API_URL}/exam/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ const Exam = ({ id, name: examName, isInProgress, challenger, startTime, endTime
             };
 
             try {
-                const response = await fetch(`http://localhost:3000/exam/${id}`, {
+                const response = await fetch(`${API_URL}/exam/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
