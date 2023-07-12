@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 
-	"mockExamSchedulerBackend/mongo"
+	"mockExamSchedulerBackend/dbManager"
+
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -14,8 +16,8 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New())
 
-	connectionString := mongo.GetConnectionStringFromEnvFile(".env")
-	db, err := mongo.New(connectionString, "production")
+	connectionString := dbManager.GetConnectionStringFromEnvFile(".env")
+	db, err := dbManager.NewDatabase(connectionString, "production")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,7 +27,7 @@ func main() {
 	})
 
 	app.Post("/exam", func(c *fiber.Ctx) error {
-		exam := new(mongo.Exam)
+		exam := new(dbManager.Exam)
 
 		if err := c.BodyParser(exam); err != nil {
 			log.Println(err)
@@ -43,7 +45,11 @@ func main() {
 
 	app.Get("/exam/:id", func(c *fiber.Ctx) error {
 		id, err := primitive.ObjectIDFromHex(c.Params("id"))
+
 		if err != nil {
+			if err == mongo.ErrNoDocuments {
+				return c.Status(400).SendString("{'error': 'No exam with that id'}")
+			}
 			log.Println(err)
 			return c.Status(400).SendString(err.Error())
 		}
@@ -64,7 +70,7 @@ func main() {
 			return c.Status(400).SendString(err.Error())
 		}
 
-		updatedExam := new(mongo.Exam)
+		updatedExam := new(dbManager.Exam)
 		if err := c.BodyParser(updatedExam); err != nil {
 			log.Println(err)
 			return c.Status(400).SendString(err.Error())

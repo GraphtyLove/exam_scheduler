@@ -1,4 +1,4 @@
-package mongo
+package dbManager
 
 import (
 	"context"
@@ -25,7 +25,7 @@ func GetConnectionStringFromEnvFile(filePath string) string {
 	return os.Getenv("MONGO_CONNECTION_STRING")
 }
 
-func New(uri string, dbName string) (*Database, error) {
+func NewDatabase(uri string, dbName string) (*Database, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
