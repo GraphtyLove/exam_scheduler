@@ -33,3 +33,8 @@ Run the backend
 ```bash
 ./backend
 ```
+
+## Run the tests
+```bash
+go test ./...
+```
